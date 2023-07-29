@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>External Sorting Visualizer</title>
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='155.5' height='179.9' viewBox='0 0 155.5 179.9'%3E%3Ctitle%3Efavicon%3C/title%3E%3Cpath d='M960.6,490.4a189.2,189.2,0,0,1-20.1-1c-12.6-1.3-27.2-3.4-41-9.9-4.8-2.3-8.2-4.6-10.8-7.5a13.1,13.1,0,0,1-3.4-8.9c.1-3.1.2-6.8,0-10.4a13.6,13.6,0,0,1,5-11c5.8-5,12.6-7.7,18.5-9.6a169.9,169.9,0,0,1,36-6.5l8.1-.5h16.3l8.1.5a164.3,164.3,0,0,1,36,6.5c5.8,1.9,12.4,4.4,18.2,9.4,3.8,3.2,5.5,7,5.2,11.5a76.3,76.3,0,0,0,.1,8.5c.4,5.5-1.9,9.9-7,13.7s-14.2,7.5-20,9.1c-11.7,3.3-24.6,5.2-39.5,5.9Z' transform='translate(-883.3 -423)' style='fill:%23f42f3f'/%3E%3Cpath d='M961,427h8.1l8.1.5a170.7,170.7,0,0,1,35.5,6.4c6.3,2.1,12.4,4.6,17.5,9,3,2.6,4.8,5.8,4.6,9.9a51.7,51.7,0,0,0,0,8.8c.4,5.3-2.1,8.9-6.1,11.9-5.9,4.3-12.6,6.8-19.5,8.8-12.7,3.6-25.8,5.2-39,5.8l-9.6.2a188.1,188.1,0,0,1-19.9-1c-13.9-1.4-27.6-3.7-40.4-9.7a30.9,30.9,0,0,1-10.1-7.1,10.6,10.6,0,0,1-2.9-7.4c.1-3.5.2-7.1,0-10.6a11.8,11.8,0,0,1,4.4-9.4c5.1-4.5,11.3-7.1,17.7-9.2a170.3,170.3,0,0,1,35.5-6.4l8.1-.5h8m0-4h-8.2l-8.2.5a170,170,0,0,0-36.4,6.6c-6.1,2-13.2,4.7-19.2,10-3.9,3.5-5.9,7.7-5.7,12.6s.1,7.1,0,10.3a15.2,15.2,0,0,0,3.9,10.2c2.8,3.2,6.3,5.6,11.4,8,14.1,6.6,29,8.8,41.7,10.1a193,193,0,0,0,20.3,1l9.8-.2c15-.7,28.1-2.6,39.9-6,6-1.7,13.8-4.3,20.7-9.4s8.3-9.3,7.7-15.5c-.1-2.3-.1-4.8,0-8.1.3-5.2-1.7-9.6-5.9-13.2-6.1-5.2-13.3-8-18.9-9.8a170,170,0,0,0-36.4-6.6l-8.3-.5Z' transform='translate(-883.3 -423)'/%3E%3Cpath d='M960.6,600.9h-6.8c-.1,0-4.6-.1-9-.4a168.5,168.5,0,0,1-36-6.6c-5.8-1.8-12.5-4.4-18.2-9.3a14.2,14.2,0,0,1-5.3-11.6c.1-3.3.1-6.6.1-9.9v-5.2l.5-.6a2.7,2.7,0,0,1,1.8-.7,3.3,3.3,0,0,1,1.6.5c10,6.7,21.3,9.6,30.1,11.4a198.7,198.7,0,0,0,40.8,4.1h5.6c20-.5,36-2.9,50.5-7.5a65.8,65.8,0,0,0,16.2-7.7l.7-.4.7-.4h.7a2.1,2.1,0,0,1,2.1,2.1V567a41.7,41.7,0,0,0,0,5c.5,5.6-1.8,10.2-7.1,14-7.3,5.3-17.7,8.4-20.7,9.2a180.1,180.1,0,0,1-36.4,5.5H960.6Z' transform='translate(-883.3 -423)' style='fill:%232f43f4'/%3E%3Cpath d='M1034.6,558.4a.1.1,0,0,1,.1.1v6.1a64.3,64.3,0,0,0,.1,7.6c.4,5.4-2.2,9.1-6.3,12.1-7.5,5.5-18.6,8.5-20.1,8.9,0,0-17.9,4.9-36,5.5H953.8s-4.5-.1-8.9-.4a167.4,167.4,0,0,1-35.5-6.5c-6.3-2-12.4-4.5-17.5-8.9a12.2,12.2,0,0,1-4.6-10c.2-4.8.1-9.6.1-14.3.1-.2.2-.2.3-.2l.5.2c9.3,6.2,19.9,9.4,30.7,11.7a205.1,205.1,0,0,0,41.3,4.1h5.6c17.3-.4,34.5-2.3,51.1-7.6a73,73,0,0,0,16.7-7.9l.9-.5h.1m0-4a4.6,4.6,0,0,0-2.1.5h-.2l-.9.5a62.6,62.6,0,0,1-15.8,7.5c-14.2,4.6-30,6.9-49.9,7.4h-5.5a202,202,0,0,1-40.4-4c-8.6-1.8-19.7-4.7-29.4-11.1a4.1,4.1,0,0,0-2.7-.9,4.8,4.8,0,0,0-3.2,1.3l-1.1,1.2v6c0,3.3,0,6.6-.1,9.9a15.8,15.8,0,0,0,6,13.1c6,5.2,13.3,7.9,18.9,9.7a170.7,170.7,0,0,0,36.4,6.7c4.5.3,8.9.4,9.1.4h18.8a181.9,181.9,0,0,0,36.9-5.6c3.1-.8,13.8-4,21.4-9.5,5.9-4.3,8.5-9.4,7.9-15.8a36.8,36.8,0,0,1,0-4.7v-8.6a4.1,4.1,0,0,0-4.1-4.1Z' transform='translate(-883.3 -423)'/%3E%3Cpath d='M961.6,564.1h-6.2c-19.8-.5-35.6-3.1-49.8-8.2a45.8,45.8,0,0,1-13.6-7.1c-2.4-1.8-5.2-4.3-6.3-8.4h0a8.6,8.6,0,0,1-.3-1.7V521.6a2.1,2.1,0,0,1,2.1-2.1h.6l.6.3a68.3,68.3,0,0,0,11.3,6.1,122.5,122.5,0,0,0,26.1,6.9,198.9,198.9,0,0,0,34.4,2.8h6.2c19-.5,34.6-2.8,49-7.3a64.4,64.4,0,0,0,17.5-8.3l.5-.3h1.4l.5.4a2.9,2.9,0,0,1,1.1,2.9h0v4.4c0,2.8-.1,5.7.1,8.6.2,4.6-1.6,8.4-5.4,11.7s-8.3,5.7-14.8,8.1c-8.7,3.2-18.5,5.4-30.9,6.9a185,185,0,0,1-24.1,1.4Z' transform='translate(-883.3 -423)' style='fill:%232ff446'/%3E%3Cpath d='M887.5,521.5h.1a65.9,65.9,0,0,0,11.7,6.2,121.2,121.2,0,0,0,26.4,7.1,214.9,214.9,0,0,0,34.8,2.8h6.2c16.8-.4,33.4-2.3,49.6-7.4a66,66,0,0,0,18-8.5h.1c.5.4.3.9.3,1.3,0,4.4-.1,8.8.1,13.1a12.4,12.4,0,0,1-4.7,10.2,44.5,44.5,0,0,1-14.2,7.7,132.4,132.4,0,0,1-30.4,6.8,191.6,191.6,0,0,1-23.9,1.4h-6.1c-16.8-.4-33.4-2.4-49.3-8a48.9,48.9,0,0,1-13-6.8c-2.5-2-4.7-4.2-5.5-7.4a6.1,6.1,0,0,1-.3-1.3V521.6a.1.1,0,0,1,.1-.1m0-4a4.1,4.1,0,0,0-4.1,4.1v16.9a6.2,6.2,0,0,0,.4,2.2h0c1.2,4.6,4.4,7.5,7,9.5a48,48,0,0,0,14.1,7.4c14.4,5.2,30.5,7.8,50.5,8.3h6.2a207.9,207.9,0,0,0,24.3-1.4,139.7,139.7,0,0,0,31.4-7c6.7-2.5,11.4-5.1,15.4-8.5s6.3-8.1,6.1-13.3c-.2-2.8-.1-5.6-.1-8.5v-4.3a4.9,4.9,0,0,0-1.8-4.7,4.4,4.4,0,0,0-2.5-.8h-1.3l-1,.7a66.8,66.8,0,0,1-17,8c-14.2,4.4-29.6,6.7-48.5,7.2h-6.1a206.7,206.7,0,0,1-34.1-2.7,121.5,121.5,0,0,1-25.6-6.9,58.3,58.3,0,0,1-11-5.9,4.6,4.6,0,0,0-2.3-.6Z' transform='translate(-883.3 -423)'/%3E%3Cpath d='M961.4,527.2h-5.8c-16.5-.3-30.9-2.3-44-6.1-5.8-1.7-13.2-4.2-19.6-9.1-2.3-1.8-5.1-4.3-6.3-8.4a10.1,10.1,0,0,1-.3-2.5V485.9a2.8,2.8,0,0,1,.7-2.4,2,2,0,0,1,1.6-.7,3.6,3.6,0,0,1,1.9.7c10,6.5,21.2,9.4,30.8,11.4a195.8,195.8,0,0,0,39.9,3.8l11.2-.2c19.3-.9,34.6-3.6,48.1-8.6a56.9,56.9,0,0,0,12.6-6.2l.9-.5.9-.6h.6a2,2,0,0,1,2,2c0,1.8.1,3.5.1,5.3,0,4.2.1,8.1-.1,12.2s-3.5,7.5-6.5,9.8c-7,5.3-15,7.9-21.9,9.7-14,3.8-29.3,5.6-46.8,5.6Z' transform='translate(-883.3 -423)' style='fill:%23f4c32f'/%3E%3Cpath d='M1034.6,484.6h0c.1,6,.3,11.7,0,17.4-.2,3.7-2.9,6.2-5.7,8.3-6.4,4.8-13.7,7.3-21.2,9.4a181,181,0,0,1-46.3,5.5h-5.7c-14.8-.3-29.3-1.9-43.6-6.1-6.7-1.9-13.2-4.4-18.9-8.7-2.5-1.9-4.7-4.1-5.5-7.3a6.9,6.9,0,0,1-.3-2V485.9c0-.7,0-1.1.3-1.1s.4.1.8.4c9.6,6.3,20.4,9.4,31.5,11.7a202.3,202.3,0,0,0,40.3,3.8l11.3-.2c16.6-.8,33-2.9,48.7-8.7a65.4,65.4,0,0,0,13-6.4,4.9,4.9,0,0,1,1.3-.8h0m0-4h-1.1l-1,.6-.5.2a4.7,4.7,0,0,1-.9.6,57.9,57.9,0,0,1-12.2,6.1c-13.3,4.8-28.4,7.5-47.5,8.4l-11.1.2a191.9,191.9,0,0,1-39.5-3.8c-9.4-1.9-20.4-4.7-30.1-11.1a5.9,5.9,0,0,0-3-1,4.3,4.3,0,0,0-3,1.3,4.7,4.7,0,0,0-1.3,3.8V501a10.3,10.3,0,0,0,.4,3,18.1,18.1,0,0,0,7,9.5c6.7,5,14.3,7.7,20.2,9.4a172.1,172.1,0,0,0,44.6,6.2h5.8c17.6,0,33.1-1.8,47.4-5.7,7-1.9,15.2-4.5,22.5-10,3.4-2.6,7-6,7.3-11.3s.1-8.1.1-12.3c0-1.8-.1-3.5-.1-5.3a4,4,0,0,0-4-4Z' transform='translate(-883.3 -423)'/%3E%3C/svg%3E" />
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="canvas-container">
+		<canvas id="canvas"></canvas>
+	</div>
+	
+	<div id="page">
+
+		<div id="algorithm-section">
+			<div id="algorithm" >
+
+				<!-- "menu bar" on top -->
+				<div id="algorithm-selector">
+					<div id="two-way" class="selected">2-way</div>
+					<div id="k-way">K-way</div>
+					<div id="replacement-selection">Replacement Selection</div>
+				</div>
+
+				<!-- 2-WAY ALGORITHM---------------------------------------------------------------------------------- -->
+				<div class="code-container two-way" style="display: none;">
+					<div class="algorithm-name"></div>
+					<div class="code">
+						<div><span class="comments">// Pass 0</span></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span>no more pages in <b>R</b><span class="parenthesis">)</span>:</div>
+						<div>	load <b>1</b> page of relation <b>R</b> in the buffer</div>
+						<div>	sort records of the page in the buffer</div>
+						<div>	write corresponding page in a new run</div>
+						<div>set <b>i</b> = <b>1</b></div>
+						<div><span class="comments">// Pass i</span></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span>there are other runs to consider for pass <b>i</b><span class="parenthesis">)</span>:</div>
+						<div>	select <b>M-1</b> runs created in pass <b>i-1</b> and not yet analyzed</div>
+						<div>	load first page of each run in the buffer</div>
+						<div>	set pointer of each frame to first record of each page</div>
+						<div>	<span class="instructions">while</span> <span class="parenthesis">(</span>buffer is not empty<span class="parenthesis">)</span>:</div>
+						<div>		find minimum record <b>r</b> among pointed records</div>
+						<div>		write the minimum record <b>r</b> in the output frame</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>record <b>r</b> was NOT last of its frame<span class="parenthesis">)</span>:</div>
+						<div>			point to next record for corresponding frame</div>
+						<div>		<span class="instructions">else if</span> <span class="parenthesis">(</span>corresponding run has more pages<span class="parenthesis">)</span>:</div>
+						<div>			load next page of record <b>r</b>'s run to the frame</div>
+						<div>			set pointer of the frame to its first record</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>output frame is full<span class="parenthesis">)</span>:</div>
+						<div>			write output frame in secondary storage</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>we are at last record of last page for each run<span class="parenthesis">)</span>:</div>
+						<div>			set <b>i</b> = <b>i+1</b></div>
+						<div><span class="comments">// File is sorted</span></div>
+						<div class="highlight"></div>
+					</div>
+				</div>
+				<!-- K-WAY ALGORITHM---------------------------------------------------------------------------------- -->
+				<div class="code-container k-way" style="display: none;">
+					<div class="algorithm-name"></div>
+					<div class="code">
+						<div><span class="comments">// Pass 0</span></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span>no more pages in <b>R</b><span class="parenthesis">)</span>:</div>
+						<div>	load <b>M</b> pages of relation <b>R</b> in the <b>M</b> frames of the buffer</div>
+						<div>	sort records of the <b>M</b> pages in the buffer</div>
+						<div>	write corresponding pages in a new run</div>
+						<div>set <b>i</b> = <b>1</b></div>
+						<div><span class="comments">// Pass i</span></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span>there are other runs to consider for pass <b>i</b><span class="parenthesis">)</span>:</div>
+						<div>	select <b>M-1</b> runs created in pass <b>i-1</b> and not yet analyzed</div>
+						<div>	load first page of each run in the buffer</div>
+						<div>	set pointer of each frame to first record of each page</div>
+						<div>	<span class="instructions">while</span> <span class="parenthesis">(</span>buffer is not empty<span class="parenthesis">)</span>:</div>
+						<div>		find minimum record <b>r</b> among pointed records</div>
+						<div>		write the minimum record <b>r</b> in the output frame</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>record <b>r</b> was NOT last of its frame<span class="parenthesis">)</span>:</div>
+						<div>			point to next record for corresponding frame</div>
+						<div>		<span class="instructions">else if</span> <span class="parenthesis">(</span>corresponding run has more pages<span class="parenthesis">)</span>:</div>
+						<div>			load next page of record <b>r</b>'s run to the frame</div>
+						<div>			set pointer of the frame to its first record</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>output frame is full<span class="parenthesis">)</span>:</div>
+						<div>			write output frame in secondary storage</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>we are at last record of last page for each run<span class="parenthesis">)</span>:</div>
+						<div>			set <b>i</b> = <b>i+1</b></div>
+						<div><span class="comments">// File is sorted</span></div>
+						<div class="highlight"></div>
+					</div>
+				</div>
+				<!-- DOUBLE BUFFERING ALGORITHM---------------------------------------------------------------------------------- -->
+				<div class="code-container double-buffering" style="display: none;">
+					<div class="algorithm-name"></div>
+					<div class="code">
+						<div><span class="comments">// To implement</span></div>
+						<div class="highlight"></div>
+					</div>
+				</div>
+				<!-- REPLACEMENT SELECTION ALGORITHM---------------------------------------------------------------------------------- -->
+				<div class="code-container replacement-selection" style="display: none;">
+					<div class="algorithm-name"></div>
+					<div class="code">
+						<div><span class="comments">// Pass 0</span></div>
+						<div>load <b>first</b> page of relation <b>R</b> in the input frame <b>F1</b></div>
+						<div>load next <b>M-2</b> pages of <b>R</b> in the buffer</div>
+						<div>set <b>Q1</b> = <b>queue</b> of records in the <b>M-2</b> frames starting from <b>F2</b></div>
+						<div>set <b>Q2</b> = <b>empty queue</b></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span><b>F1</b> or <b>Q1</b> or <b>Q2</b> are not empty<span class="parenthesis">)</span>:</div>
+						<div>	<span class="instructions">if</span> <span class="parenthesis">(</span><b>Q1</b> is empty<span class="parenthesis">)</span>:</div>
+						<div>		move <b>Q2</b> into <b>Q1</b></div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>output frame is not empty<span class="parenthesis">)</span>:</div>
+						<div>			write output frame in secondary storage</div>
+						<div>		create new run</div>
+						<div>	find minimum record <b>r1</b> in <b>Q1</b></div>
+						<div>	move <b>r1</b> in the output frame</div>
+						<div>	<span class="instructions">if</span> <span class="parenthesis">(</span><b>F1</b> is empty and <b>R</b> has more pages<span class="parenthesis">)</span>:</div>
+						<div>		read next page from <b>R</b></div>
+						<div>	<span class="instructions">if</span> <span class="parenthesis">(</span><b>F1</b> is NOT empty)</span>:</div>
+						<div>		point to the next record <b>r2</b> in input frame <b>F1</b></div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span><b>r1</b> &lt; <b>r2</b><span class="parenthesis">)</span>:</div>
+						<div>			move <b>r2</b> in <b>Q1</b></div>
+						<div>		<span class="instructions">else</span>:</div>
+						<div>			move <b>r2</b> in <b>Q2</b></div>
+						<div>	<span class="instructions">if</span> <span class="parenthesis">(</span>output frame is full<span class="parenthesis">)</span>:</div>
+						<div>		write output frame in secondary storage</div>
+						<div>set <b>i</b> = <b>1</b></div>
+						<div><span class="comments">// Pass i</span></div>
+						<div><span class="instructions">while</span> <span class="parenthesis">(</span>there are other runs to consider for pass <b>i</b><span class="parenthesis">)</span>:</div>
+						<div>	select <b>M-1</b> runs created in pass <b>i-1</b> and not yet analyzed</div>
+						<div>	load first page of each run in the buffer</div>
+						<div>	set pointer of each frame to first record of each page</div>
+						<div>	<span class="instructions">while</span> <span class="parenthesis">(</span>buffer is not empty<span class="parenthesis">)</span>:</div>
+						<div>		find minimum record <b>r</b> among pointed records</div>
+						<div>		write the minimum record <b>r</b> in the output frame</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>record <b>r</b> was NOT last of its frame<span class="parenthesis">)</span>:</div>
+						<div>			point to next record for corresponding frame</div>
+						<div>		<span class="instructions">else if</span> <span class="parenthesis">(</span>corresponding run has more pages<span class="parenthesis">)</span>:</div>
+						<div>			load next page of record <b>r</b>'s run to the frame</div>
+						<div>			set pointer of the frame to its first record</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>output frame is full<span class="parenthesis">)</span>:</div>
+						<div>			write output frame in secondary storage</div>
+						<div>		<span class="instructions">if</span> <span class="parenthesis">(</span>we are at last record of last page for each run<span class="parenthesis">)</span>:</div>
+						<div>			set <b>i</b> = <b>i+1</b></div>
+						<div><span class="comments">// File is sorted</span></div>
+						<div class="highlight"></div>
+					</div>
+				</div>
+			</div>
+			<div id="collapse-arrow"></div>
+		</div>
+
+		<div id="visualizer">
+			<div id="main-memory-container">
+				<div class="section-title">MAIN MEMORY</div>
+				<div id="frame-buffer" class="blocks-wrapper">
+					<div class="blocks-container-name">BUFFER</div>
+					<div class="blocks-container">
+						<!-- Pages go here -->
+					</div>
+				</div>
+			</div>
+			<div id="secondary-storage-container">
+				<div class="section-title">SECONDARY STORAGE</div>
+				<div class="content">
+					<div id="runs-container-next">
+						<!-- Runs go here -->
+						<div id="copies-container"></div>
+					</div>
+					<div id="runs-container">
+						<!-- Runs go here -->
+						<div id="copies-container"></div>
+					</div>
+					<div id="file" class="blocks-wrapper">
+						<div class="blocks-container">
+							<!-- Pages go here -->
+						</div>
+						<div class="blocks-container-name-v2">FILE FOR R</div>
+						<div id="copies-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- This is the alternate algorithm selection (for when the page is too zomed and the algorithm section will be hiddem) -->
+	<div id="algorithm-selector-alternate">
+		<div id="two-way" class="selected">2-way</div>
+		<div id="k-way">K-way</div>
+		<div id="replacement-selection">Replacement Selection</div>
+	</div>
+
+	<!-- Controls section -->
+	<div id="controls">
+		<div id="phase-description-container" class="controls-section">
+			<div class="current-phase-description">
+				<div>
+					<span>
+						<!-- Current phase description go here -->
+					</span>
+				</div>
+			</div>
+		</div>
+		<div id="animation-controls-container" class="controls-section">
+			<div id="restart" class="button"></div>
+			<div id="step-backwards" class="button"></div>
+			<div id="play-pause" class="button"></div>
+			<div id="step-forward" class="button"></div>
+			<div id="speed" class="button">
+				<div class="selected-speed">1x</div>
+				<div class="speed-popup button-popup">
+					<div>3x</div>
+					<div>2.5x</div>
+					<div>2x</div>
+					<div>1.75x</div>
+					<div>1.5x</div>
+					<div>1.25x</div>
+					<div class="selected">1x</div>
+					<div>0.75x</div>
+					<div>0.5x</div>
+					<div>0.25x</div>
+				</div>
+			</div>
+			<div class="zoom-note"><span><b>Zoom out</b> to see the <b>algorithm sidebar</b></span></div>
+		</div>
+		<div id="other-controls-container" class="controls-section">
+			<div>
+				<div id="other-infos">
+					<div id="current-pass">
+						<!-- Current pass text go here -->
+					</div>
+					<div id="io-operations">
+						<!-- IO operations counter text go here -->
+					</div>
+				</div>
+			</div>
+			<div>
+				<div id="options-button" class="button">
+					<div class="options-popup button-popup">
+						<div>OPTIONS</div>
+						<div>
+							<span>Active Element Focus</span>
+							<label class="toggle-switch" for="focus-toggle">
+								<input id="focus-toggle" type="checkbox" checked>
+								<span class="toggle-slider"></span>
+							</label>
+							<span class="option-description">Scroll to follow the currently active element (e.g. records, pages, ecc...) during animation.</span>
+						</div>
+						<div>
+							<span>Code Highlight</span>
+							<label class="toggle-switch" for="code-highlight-toggle">
+								<input id="code-highlight-toggle" type="checkbox" checked>
+								<span class="toggle-slider"></span>
+							</label>
+							<span class="option-description">Highlight lines of the algorithm pseudocode.</span>
+						</div>
+						<div>
+							<span>Fireworks</span>
+							<label class="toggle-switch" for="fireworks-toggle">
+								<input id="fireworks-toggle" type="checkbox" checked>
+								<span class="toggle-slider"></span>
+							</label>
+							<span class="option-description">Play fireworks animation when file is sorted.</span>
+						</div>
+						<div>
+							<span>Laser Cursor</span>
+							<label class="toggle-switch" for="custom-cursor">
+								<input id="custom-cursor" type="checkbox">
+								<span class="toggle-slider"></span>
+							</label>
+							<span class="option-description">Show a custom cursor as the mouse pointer.</span>
+						</div>
+					</div>
+				</div>
+				<div id="about-button" class="button">?</div>
+				<div id="sorting-tree-button" class="button"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- About pop-up -->
+	<div id="about-popup" class="">
+		<div id="close-about-popup-button"></div>
+		<div>
+			<div><h1>Multipass External Merge Sort<br/>Algorithm Visualizer</h1></div>
+			<div style="opacity: 0.65;"><span><b>2-way Sorting</b> - <b>k-way Sorting</b> - <b>Replacement Selection</b></span></div>
+				<div class="instructions">
+					<div><h2>Instructions</h2></div>
+					<div>
+						<div>
+							<div class="text-box">1</div>
+							<div>Select the <u>algorithm variation</u> from the tabs (at the <b>top left of the screen</b>).<span style="content: ''; display: inline-block; height: 1.2vw; width: 0px;"></span></div>
+						</div>
+						<div>
+							<div class="text-box">2</div>
+							<div>Insert the desired values for the <u>selected algorithm's animation</u> in the input fields<span style="content: ''; display: inline-block; height: 1.2vw; width: 0px;"><!-- EMPTY (used to align elements to the line) --></span><br/>
+								(at <b>the bottom left of the screen</b>).</div>
+						</div>
+						<div>
+							<div class="text-box">3</div>
+							<div>Click on the "play" button <span class="play-pause-icon button-icon"></span> in the controls section to <u>play and pause the animation</u><br/>
+								(at <b>the bottom of the screen</b>).</div>
+						</div>
+						<div>
+							<div class="text-box">4</div>
+							<div>Use the "step forward" <span class="step-forward-icon button-icon"></span> and "step backwards" <span class="step-backwards-icon button-icon"></span> buttons in the controls section<br/>
+								(at <b>the bottom of the screen</b>) to <u>manually play or rewind</u> single steps of the animation.</div>
+						</div>
+						<div>
+							<div class="text-box">5</div>
+							<div>Select the animation playback speed with the "speed" button <span class="button-icon">1x</span>.</div>
+						</div>
+						<div>
+							<div class="text-box">6</div>
+							<div>Use the restart button <span class="reset-icon button-icon"></span> to restart the animation with new input values.</div>
+						</div>
+						<div>
+							<div class="text-box">7</div>
+							<div>Additional information and options are available at the <b>bottom left of the screen</b>.<span style="content: ''; display: inline-block; height: 1.2vw; width: 0px;"></span></div>
+						</div>
+					</div>
+				</div>
+				<div class="description">
+					<div>
+						Developed by <a href="https://github.com/valeriodiste">Valerio Di Stefano</a> - Source code available on <a href="https://github.com/valeriodiste/ExternalMergeSortVisualizer">GitHub</a>
+					</div>
+					<div>
+						Project work of the <a href="https://www.diag.uniroma1.it/~lenzerin/index.html/?q=node/53">Data Management (2022/2023)</a> course
+						taught by <a href="https://www.diag.uniroma1.it/~lenzerin/index.html/">Prof. Maurizio Lenzerini</a> 
+						<br/>
+						(master degree course of <a href="https://corsidilaurea.uniroma1.it/it/corso/2022/30430/home">Engineering in Computer Science</a>
+						at <a href="https://www.uniroma1.it/it/">Sapienza University of Rome</a>)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Sorting tree pop-up -->
+	<div id="sorting-tree-popup" class="">
+		<div id="close-sorting-tree-popup-button"></div>
+		<div>
+			<div><h1>Sorting Tree</h1></div>
+			<div style="opacity: 0.65;"><span class="sorting-tree-description">Sorting tree of relation R for passes of the [SELECTED ALGORITHM] algorithm.</span></div>
+			<div id="sorting-tree-container">
+				<!-- Tree passes go here -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Black overlay for windows pop-ups -->
+	<div id="black-overlay"></div>
+
+	<!-- Import scripts -->
+	<script src="jquery-3.7.0.min.js"></script>
+	<script src="variables.js"></script>
+	<script src="animation_functions.js"></script>
+	<script src="main.js"></script>
+	<script src="animation.js"></script>
+	<script src="fireworks.js"></script>
+
+</body>
+</html>
