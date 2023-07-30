@@ -4,9 +4,6 @@
 ## Data Management 2022/2023 - Project Report
 
 
-[TOC]
-
-
 ## 1. Introduction
 
 
