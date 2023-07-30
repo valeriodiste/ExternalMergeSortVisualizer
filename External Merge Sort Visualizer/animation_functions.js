@@ -413,7 +413,6 @@ function set_single_run(run_number, total_pages_per_run, set_next_runs = false) 
 		// remove all runs after the specified run number
 		$(elem_selector).find(".blocks-wrapper").each(function (index) {
 			if (index + 1 >= run_number) {
-				console.log("@@@@@ Removing run " + (index + 1));
 				$(this).remove();
 			}
 		});
