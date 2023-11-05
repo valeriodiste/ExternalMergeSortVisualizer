@@ -4,6 +4,9 @@
 ## Data Management 2022/2023 - Project Report
 
 
+You can <b>access the visualizer</b> at the following link:<br>
+https://valeriodiste.github.io/ExternalMergeSortVisualizer
+
 ## 1. Introduction
 
 
