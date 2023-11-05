@@ -620,6 +620,37 @@ function scroll_to_focused_element(element, animation_duration = STEP_DURATION) 
 	}
 }
 
+function toggle_frames_run_number_associations(visible) {
+	if (!visible) {
+		// Add class .hide_frame_run_numbers to #frame-buffer 
+		$("#frame-buffer").addClass("hide_frame_run_numbers");
+	} else {
+		// Remove class .hide_frame_run_numbers to #frame-buffer
+		$("#frame-buffer").removeClass("hide_frame_run_numbers");
+	}
+}
+
+function remove_frames_run_number_associations() {
+	// Remove any ".frame-run-association-number" element that may already be present
+	$('#frame-buffer .block').each(function (index, block) {
+		$(block).find('.frame-run-association-number').remove();
+	});
+}
+
+function update_frames_run_number_associations(run_numbers = []) {
+	// To each .block of the frame buffer (except the last one, the output buffer) assign the run number
+	// Remove any ".frame-run-association-number" element that may already be present
+	remove_frames_run_number_associations();
+	if (run_numbers.length == 0) return;
+	let run_number_elem = "<div class='frame-run-association-number'></div>";
+	$('#frame-buffer .block').each(function (index, block) {
+		if (index < run_numbers.length) {
+			$(block).append(run_number_elem);
+			$(block).find('.frame-run-association-number').html("R" + run_numbers[index]);
+		}
+	});
+}
+
 function start_step_animation_timer(to_set) {
 	step_animation_timer_for_buttons_hold = to_set;
 }
@@ -890,7 +921,6 @@ function add_button_functions() {
 		}
 	});
 
-
 	// Add functions to the #options-button button
 	$("#options-button").click(function () {
 		let speed_popup = $(this).find(".options-popup").first();
@@ -914,6 +944,9 @@ function add_button_functions() {
 	});
 	$("#fireworks-toggle").click(function () {
 		set_enable_fireworks(!enable_fireworks);
+	});
+	$("#frame-run-associations-toggle").click(function () {
+		set_enable_frames_run_number_associations_visible(!frames_run_number_associations_visible);
 	});
 	$("#custom-cursor").click(function () {
 		set_enable_custom_cursor(!enable_custom_cursor);

@@ -54,6 +54,7 @@ var STEP_DURATION;
 var enable_fireworks = true;
 var enable_focus_on_element = true;
 var enable_algorithm_lines_highlighting = true;
+var frames_run_number_associations_visible = true;
 var enable_custom_cursor = false;
 
 function set_enable_fireworks(value) {
@@ -85,6 +86,11 @@ function set_enable_algorithm_lines_highlighting(value) {
 		// Hide code line
 		move_code_line_to([-1]);
 	}
+}
+
+function set_enable_frames_run_number_associations_visible(value) {
+	frames_run_number_associations_visible = value;
+	toggle_frames_run_number_associations(value);
 }
 
 function set_enable_custom_cursor(value) {

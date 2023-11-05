@@ -2,7 +2,6 @@
 	font-family: "Tahoma", sans-serif;
 	margin: 0;
 	padding: 0;
-	/* color: var(--white); */
 }
 :root {
 	--white: #ffffff;
@@ -34,16 +33,6 @@ body {
 	background: var(--black);
 	height: 100vh;
 }
-/* Style for presentation ================================================================ */
-/* html {
-	display: block;
-	position: relative;
-}
-body {
-	display: block;
-	max-height: 750px;
-	position: relative;
-} */
 /* --------------------------------------------------------------------------------------------------- */
 #page {
 	width: 100vw;
@@ -353,6 +342,8 @@ body {
 }
 /* --------------------------------------------------------------------------------------------------- */
 :root {
+	/* --use-horizontal-view: 1; */
+	/* --secondary-storage-section-width: calc(var(--use-horizontal-view) * 74% + (1 - var(--use-horizontal-view)) * 53%); */
 	--secondary-storage-section-width: 53%;
 	--page-dim: 90px;
 	--frame-margin-top: 8px;
@@ -485,18 +476,32 @@ body {
 	text-shadow: 0 0 5px #ffffff30;
 	transition: transform 0.1s, opacity 0.1s;
 }
+/* Single column frame buffer (2-way and k-way) */
 #frame-buffer.blocks-wrapper.single-column {
 	width: calc(var(--page-dim) * 1 + var(--frame-margin-left) * 2 * 1 + var(--border-thickness) * 2 * 1);
 	padding-left: calc(var(--page-dim) * 1.21 + var(--frame-margin-left) * 2 * 1 + var(--border-thickness) * 2 * 1);
 	min-height: calc(var(--page-dim) * 2 + var(--frame-margin-top) * 2 * 2 + var(--border-thickness) * 2 * 2);
 	align-items: flex-start;
 }
-#frame-buffer.blocks-wrapper.single-column .block:last-child {
+#frame-buffer.blocks-wrapper:not(.replacement-selection).single-column {
+	margin-top: 100px;
+}
+#frame-buffer.blocks-wrapper:not(.replacement-selection).single-column .block {
+	/* Increase margin (to show runs on the left) */
+	margin: calc(var(--frame-margin-top) * 2) var(--frame-margin-left);
+}
+#frame-buffer.blocks-wrapper:not(.replacement-selection).single-column .block:last-child {
+	position: absolute;
+	top: 55px;
+	left: 20px;
+}
+/* Replacement selection single column */
+#frame-buffer.blocks-wrapper.replacement-selection.single-column .block:last-child {
 	position: absolute;
 	top: calc(55px + var(--frame-margin-top) * 2 + var(--page-dim) + var(--border-thickness) * 2);
 	left: 20px;
 }
-#frame-buffer.blocks-wrapper.single-column .block:nth-child(1) {
+#frame-buffer.blocks-wrapper.replacement-selection.single-column .block:nth-child(1) {
 	position: absolute;
 	top: 55px;
 	left: 20px;
@@ -585,7 +590,8 @@ body {
 	content: 'F' counter(frame);
 }
 #frame-buffer .block:last-child::after,
-#frame-buffer.replacement-selection.pass-zero .block:nth-child(1)::after {
+#frame-buffer.replacement-selection.pass-zero .block:nth-child(1)::after,
+#frame-buffer .frame-run-association-number {
 	line-height: 18px;
 	font-size: 0.8em;
 	position: absolute;
@@ -599,6 +605,13 @@ body {
 	padding: 1px 3px;
 	position: absolute;
 	z-index: 20;
+}
+#frame-buffer .frame-run-association-number {
+	/* Used to show the run each frame is currently considering records for (when the option is enabled) */
+	background-color: #a1a1a1b7;
+}
+#frame-buffer.hide_frame_run_numbers .frame-run-association-number {
+	visibility: hidden;
 }
 #frame-buffer .block:last-child::after {
 	content: 'OUT';
@@ -644,6 +657,22 @@ body {
 #runs-container-next.transform-to-file #run .blocks-container-name-v2::before {
 	content: 'RUN 1';
 }
+/* #secondary-storage-container.horizontal-view #runs-container .blocks-container-name-v2::before,
+#secondary-storage-container.horizontal-view #runs-container-next .blocks-container-name-v2::before {
+	content: "";
+}
+#secondary-storage-container.horizontal-view #runs-container #run.blocks-wrapper,
+#secondary-storage-container.horizontal-view #runs-container-next #run.blocks-wrapper {
+	padding-top: 12px;
+}
+#secondary-storage-container.horizontal-view .blocks-wrapper:not(#file) {
+	width: fit-content !important;
+	padding: 5px !important;
+}
+#secondary-storage-container.horizontal-view .blocks-container {
+	flex-direction: row;
+	width: fit-content;
+} */
 /* Animate content text to make name appear */
 #runs-container.transform-to-file #run .blocks-container-name-v2::before,
 #runs-container-next.transform-to-file #run .blocks-container-name-v2::before {
@@ -721,6 +750,26 @@ body {
 	padding-left: 0 15px;
 	position: relative;
 }
+/* #secondary-storage-container.horizontal-view .content {
+	justify-content: flex-start;
+	flex-direction: column-reverse;
+}
+#secondary-storage-container.horizontal-view #file {
+	width: calc(100% - 20px * 2);
+}
+#secondary-storage-container.horizontal-view #file .blocks-container-name-v2 {
+	text-align: left;
+	margin: 0px calc(20px + var(--frame-margin-top));
+	width: calc(100% - (20px + var(--frame-margin-top)) * 2);
+}
+#secondary-storage-container.horizontal-view #file .blocks-container {
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+}
+#secondary-storage-container.horizontal-view .block {
+	margin: var(--frame-margin-top) var(--frame-margin-top);
+} */
 #runs-container .blocks-wrapper,
 #runs-container-next .blocks-wrapper {
 	display: inline-flex;
@@ -1200,6 +1249,33 @@ body {
 	border-radius: 0.45vw;
 	width: 30.75vw;
 }
+/* #algorithm-selector-alternate.horizontal-view #replacement-selection {
+	text-decoration: line-through;
+	background-color: #00000010;
+	color: #ffffff40;
+	position: relative;
+	overflow: visible;
+}
+#algorithm-selector-alternate.horizontal-view #replacement-selection:active {
+	pointer-events: none;
+} */
+/* If hover on before, show a after with given text */
+/* #algorithm-selector-alternate.horizontal-view #replacement-selection:hover::before {
+	position: absolute;
+	content: "Not available in horizontal mode";
+	border-radius: 0.45vw;
+	color: #ffffffaa;
+	top: -120%;
+	left: calc(-37.5% /2);
+	width: calc(100% + 37.5%);
+	height: 100%;
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: #00000020;
+	z-index: 9999;
+} */
 #algorithm-selector-alternate > div {
 	font-size: 0.9vw;
 	height: 1.4vw;
@@ -1212,7 +1288,7 @@ body {
 	justify-content: flex-start;
 	align-items: center;
 	color: var(--white);
-	cursor: default;
+	cursor: pointer;
 	user-select: none;
 	background-color: #00000020;
 }
@@ -1355,6 +1431,9 @@ body {
 	padding-bottom: 1.9vw;
 }
 .options-popup > div:nth-child(5) {
+	padding-bottom: 1.9vw;
+}
+.options-popup > div:nth-child(6) {
 	padding-bottom: 1.9vw;
 }
 /* ---------- toggle button ---------- */

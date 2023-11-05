@@ -137,6 +137,9 @@ function initialize_animation() {
 			if (selected_algorithm_type == algorithm_type.replacement_selection) {
 				$("#frame-buffer").addClass("single-column");
 			}
+
+			// Remove any frame-run association numbers from frames of the buffer
+			update_frames_run_number_associations();
 		},
 		phase_info: {
 			code_line_offset: 0,
@@ -201,6 +204,9 @@ function initialize_animation() {
 
 			// Delete records grayed copied
 			delete_records_grayed_copies("#file");
+
+			// Remove any frame-run association numbers from frames of the buffer
+			update_frames_run_number_associations();
 		},
 		duration: function () {
 			return normal_delay() + pause_in_between_animation_phases
@@ -352,6 +358,9 @@ function initialize_animation() {
 							set_single_run(run_number, num_of_pages_per_run);
 							show_single_run(run_number, 0, (animate ? undefined : 0));
 						}
+
+						// Remove any frame-run association numbers from frames of the buffer
+						update_frames_run_number_associations();
 					}
 
 					move_page_to_run(page_number, run_number, run_page_number, 0, (animate ? undefined : 0));
@@ -557,6 +566,9 @@ function initialize_animation() {
 										set_single_run(run_number, num_of_pages_per_run);
 										show_single_run(run_number, 0, (animate ? undefined : 0));
 									}
+
+									// Remove any frame-run association numbers from frames of the buffer
+									update_frames_run_number_associations();
 								}
 							}
 
@@ -677,6 +689,9 @@ function initialize_animation() {
 				set_single_run(1, 1);
 				show_single_run(1, 0, (animate ? undefined : 0));
 				create_records_grayed_copies("#file");
+
+				// Remove any frame-run association numbers from frames of the buffer (might not be needeed, but just in case)
+				update_frames_run_number_associations();
 			},
 			phase_info: {
 				code_line_offset: 0,
@@ -1392,7 +1407,7 @@ function initialize_animation() {
 			}
 		}
 
-		// Reparent file recrds (create new hidden file pages if needed)
+		// Reparent file records (create new hidden file pages if needed)
 		let runs_created_records_at_end_of_pass_0 = created_runs_records.slice();
 		animation.push({
 			play: function (animate = true) {
@@ -1445,6 +1460,9 @@ function initialize_animation() {
 
 				// Delete grayed copies of records in the #runs-container (may not be needed, but just in case)
 				delete_records_grayed_copies("#runs-container");
+
+				// Remove any frame-run association numbers from frames of the buffer
+				update_frames_run_number_associations();
 			},
 			duration: function () {
 				return normal_delay() + pause_in_between_animation_phases
@@ -1753,6 +1771,12 @@ function initialize_animation() {
 										// Set page of new runs
 										set_single_run(run_number, pages_of_each_run_at_end[run_number - 1].length, true);
 									}
+									// If this is the first run of the runs_numbers list
+									if (run_number == runs_numbers[0]) {
+										// Set the frame-run number associations of the various buffer frames 
+										let runs_being_considered = runs_numbers.slice();
+										update_frames_run_number_associations(runs_being_considered);
+									}
 
 									if (animate) {
 										scroll_to_focused_element(get_file_page(page_number, frame_number, false), STEP_DURATION * 0.8);
@@ -1840,7 +1864,6 @@ function initialize_animation() {
 					actual_pointed_records.forEach((record) => {
 						actual_pointed_records_for_this_runs_group_copy.push({ ...record });
 					});
-
 
 					// Highlight first record of each page as pointed record ===============================================================================
 					animation.push({
@@ -2214,7 +2237,7 @@ function initialize_animation() {
 							});
 
 
-							// The min record was the last of its page (if we can, load the next page, else poinit to next record of frame) ------------------------------------------------------------------
+							// The min record was the last of its page (if we can, load the next page, else point to next record of frame) ------------------------------------------------------------------
 							if (pointed_record_was_last_of_its_frame) {
 
 								if (should_load_next_page_of_run_containing_pointed_min_record) {
@@ -2263,6 +2286,11 @@ function initialize_animation() {
 											let actual_next_pointed_record = get_record(next_pointed_record_object.record_page_number, next_pointed_record_object.record_number);
 											$(actual_next_pointed_record).addClass("pointed");
 
+											// Set the frame-run number associations of the various buffer frames 
+											// NOTE: This might not be needed here, but we do it just in case (since redoing it is not a problem)
+											let runs_being_considered = runs_numbers.slice();
+											update_frames_run_number_associations(runs_being_considered);
+
 										},
 										duration: function () {
 											return normal_delay() * 2 + pause_in_between_animation_phases
@@ -2305,6 +2333,11 @@ function initialize_animation() {
 										let actual_next_pointed_record = get_record(next_pointed_record_object.record_page_number, next_pointed_record_object.record_number);
 										if (actual_next_pointed_record != null) $(actual_next_pointed_record).addClass("pointed");
 
+										// Set the frame-run number associations of the various buffer frames 
+										// NOTE: This might not be needed here, but we do it just in case (since redoing it is not a problem)
+										let runs_being_considered = runs_numbers.slice();
+										update_frames_run_number_associations(runs_being_considered);
+
 									},
 									duration: function () {
 										return in_buffer_normal_delay() + pause_in_between_animation_phases
@@ -2345,6 +2378,11 @@ function initialize_animation() {
 											// Redo this phase's "play" function
 											set_single_run(new_run_number, pages_of_each_run_at_end[new_run_number - 1].length, true);
 											show_single_run(new_run_number, 0, (animate ? undefined : 0), true);
+
+											// Set the frame-run number associations of the various buffer frames 
+											// NOTE: This might not be needed here, but we do it just in case (since redoing it is not a problem)
+											let runs_being_considered = runs_numbers.slice();
+											update_frames_run_number_associations(runs_being_considered);
 
 										},
 										duration: function () {
@@ -2405,6 +2443,11 @@ function initialize_animation() {
 											let record_object = output_frame_records_copy[i];
 											move_record_to_run(record_object.record_page_number, record_object.record_number, new_run_number, page_of_new_run, 0, (animate ? undefined : 0), true, i + 1);
 										}
+
+										// Set the frame-run number associations of the various buffer frames 
+										// NOTE: This might not be needed here, but we do it just in case (since redoing it is not a problem)
+										let runs_being_considered = runs_numbers.slice();
+										update_frames_run_number_associations(runs_being_considered);
 
 									},
 									duration: function () {
@@ -2646,6 +2689,9 @@ function initialize_animation() {
 					start_fireworks();
 				}
 			}, 2750);
+
+			// Remove any frame-run association numbers from frames of the buffer
+			update_frames_run_number_associations();
 		},
 		phase_info: {
 			code_line_offset: highlight_lines_offset,
